@@ -21,6 +21,20 @@ class Target{
 		this.right = this.left + 25;
 	}
 
+	setColor(a){
+		if(a == 0){
+			this.color = color(0);
+			this.isT = true;
+		}else {
+			this.color = color(255);
+			this.isT = false;
+		}
+	}
+
+	setY(y) {
+		this.y = y;
+	}
+
 	isTarget(){
 		return this.isT;
 	}
@@ -64,7 +78,7 @@ class Target{
 	}
 
 	outOfBounds(){
-		return this.bottom > 600;
+		return this.bottom > 650;
 	}
 		
 }

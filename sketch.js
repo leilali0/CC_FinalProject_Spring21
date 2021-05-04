@@ -12,8 +12,9 @@ let next;
 //credit: https://editor.p5js.org/carrefinho/sketches/Sk7ZvoMn7
 
 function setup() {
-	createCanvas(600, 600);
-	background(220);
+	let canvas = createCanvas(600, 600);
+	canvas.position(windowWidth/2 - 300, windowHeight/2 -300);//centering canvas 
+	background(102, 98, 99);
 
 	//create player 
 	p = new Player();
@@ -23,11 +24,82 @@ function setup() {
 
 	//create next buttons 
 	next = createButton('Next');
-	next.hide();
+	next.style('font-size', '20px'); //change text size 
+	next.hide(); //hide button 
+
+	story();
 }
 
 function story(){
+	next.hide();
+	background(102, 98, 99);
+	fill(255);
+	textAlign(CENTER);
+	textSize(28);
+	text('Did you notice something inappropriate?', 300, 250);
 
+	yes = createButton('Yes');
+	yes.position(windowWidth/2 - 150, windowHeight/2 + 50);
+	yes.style('font-size', '20px');
+	yes.size(60, 30);
+	yes.mousePressed(yStepOne);
+
+	no = createButton('No');
+	no.position(windowWidth/2 + 80, windowHeight/2 + 50);
+	no.style('font-size', '20px');
+	no.size(60, 30);
+	no.mousePressed(nStepOne);
+}
+
+function yStepOne() {
+	background(102, 98, 99);
+	fill(255);
+	textSize(28);
+	textAlign(CENTER);
+	text('Was it the tagert color?', 300, 250);
+
+	yes.mousePressed(stepTwo);
+	no.mousePressed(nStepOne);
+}
+
+function nStepOne() {
+	background(102, 98, 99);
+	fill(255);
+	textSize(28);
+	textAlign(CENTER);
+	text("Did you notice the color of targets?", 300, 250);
+
+	targetA = new Target(275);
+	targetA.setY(100);
+	targetA.setColor(0);
+	targetA.display();
+
+	targetB = new Target(325);
+	targetB.setY(100);
+	targetB.setColor(1);
+	targetB.display();
+
+	yes.mousePressed(stepTwo);
+	no.mousePressed(stepTwo);
+}
+
+function stepTwo() {
+	yes.hide();
+	no.hide();
+
+	background(102, 98, 99);
+	fill(255);
+	textSize(28);
+	textAlign(CENTER);
+	text("Did you know Florida Police used mugshots \n of black man for target practice?", 300, 250);
+
+	/*
+	more = createButton('Learn More');
+	more.position(windowWidth/2 - 75, windowHeight/2 + 50);
+	more.style('font-size', '20px');
+	more.size(textWidth('Learn More') + 5, 30);
+	//more.mousePressed(yStepOne);
+	*/
 }
 
 //press any key to fire 
@@ -39,8 +111,9 @@ function keyPressed(){
 
 }
 
+/*
 function draw() {
-	background(220);
+	background(102, 98, 99);
 
 	playerPosition();
 
@@ -127,13 +200,16 @@ function gameover() {
 	//background(0);
 	textSize(40);
 	fill(0);
-	text('GAME OVER', 150, 250);
-	text('Score: ', 200, 350);
-	text(score, 320, 350);
-	noLoop();
-	next.show();
-	next.mousePressed(story);
-	next.position(240, 400);
+	text('GAME OVER', 180, 220);
+	text('Score: ', 230, 320);
+	text(score, 360, 320);
+	noLoop(); //stop the game 
+
+
+	next.show(); //show button 
+	next.position(windowWidth/2 - 20, windowHeight/2 + 100);
 	next.size(60, 30);
+	next.mousePressed(story);
 }
 
+*/
