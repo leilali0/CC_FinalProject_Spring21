@@ -1,10 +1,12 @@
 class Player {
 	constructor(){
-		//fill(123, 134, 133);
+		this.w = 40;
+		this.h = 20;
+		this.y = 580
 	}
 
 	display(position){
 		fill(123, 134, 133);
-		rect(position, 580, 40, 20);
+		rect(position, this.y, this.w, this.h);
 	}
 }
