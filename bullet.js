@@ -1,8 +1,8 @@
 class Bullet{
 	constructor(x){
 		this.x = x;
-		this.y = 605;
-		this.speed = 3;
+		this.y = 580;
+		this.speed = 4;
 
 		this.r = random(256); 
   		this.g = random(256); 
