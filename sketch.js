@@ -4,15 +4,16 @@ let p;
 let position;
 let bullets = [];
 let targets = [];
-let targetNum = 2;
+let targetNum = 1;
 let timer = 1;
+let fixed = [];
+
+let countdown = 0;
 
 let play;
-let skip;
+let flash = 0;
 
 let next;
-
-let game;
 
 //credit: https://editor.p5js.org/carrefinho/sketches/Sk7ZvoMn7
 
@@ -20,61 +21,21 @@ function setup() {
 	let canvas = createCanvas(600, 600);
 	canvas.position(windowWidth/2 - 300, windowHeight/2 -300);//centering canvas 
 	background(102, 98, 99);
-
-	skip = createButton('SKIP');
-	play = createButton('PLAY');
-	game = false;
-
+	play = true;
+	y = 1;
 	//create next buttons 
 	//next = createButton('Next');
 	//next.style('font-size', '20px'); //change text size 
 	//next.hide(); //hide button 
-
-	warning();
-
-	if(game){
-		p = new Player();
-		targets.push(new Target(random(30, 570)));
-	}
+	p = new Player();
+	targets.push(new Target(random(30, 570), -50));
 
 }
-
-//warning
-
-// I added a warning and a skip option for the game for people who might find this disturbing 
-// I personally have very strong political belief when it comes to the subject of racism. I believe the more disturbing the topic is,
-// the more we need to bring attention to it. The game is definitly extremely inappropriate and aggressive, but that is precisely the point. 
-// There are so many people who lost their life due to racism. And just because we are not the one doing the harm, we are not exempted from 
-// being guilty of systemic racism.  
-
-function warning(){
-	textSize(28);
-	textAlign(CENTER);
-	fill(0);
-	text('THIS IS A SHOOTING GAME!', 300, 250);
-	//\n You might find this game disturbing. \n To skip the game, press SKIP; otherwise, press PLAT'
-
-	skip.style('font-size', '20px'); 
-	skip.position(windowWidth/2 - 150, windowHeight/2 + 50);
-	skip.mousePressed(story);
-
-	play.style('font-size', '20px'); 
-	play.mousePressed(start);
-	play.position(windowWidth/2 + 80, windowHeight/2 + 50);
-}
-
-function start() {
-	skip.hide();
-	play.hide();
-	game = true;
-}
-
-function story() {}
 
 //press any key to fire 
 function keyPressed(){
 	//push space bar the fired bullet to the array 
-	if(keyCode == 32){
+	if(keyCode == 32 && play == true){
 		bullets.push(new Bullet(position + 30));
 	}
 
@@ -87,13 +48,18 @@ function draw() {
 	playerPosition();
 
 	//add targets
+	//calling it multiple times to create targets frequently, and not all at once
 	addTargets();
 
 	//display and update tagerts
 	displayTargerts();
 
+	addTargets();
+
 	//check if fired bullets hit any target 
 	check();
+
+	addTargets();
 
 	if(score == 10){
 		gameover();
@@ -105,8 +71,8 @@ function addTargets(){
 	timer += 1;
 	if(timer % 300 == 0) {
 		targetNum += 1;
-		for(let i = 0; i < targetNum; i++){
-			targets.push(new Target(random(30, 570))); // add new tagert with random position 
+		for(let i = 0; i < targetNum/4; i++){
+			targets.push(new Target(random(30, 570), -50)); // add new tagert with random position 
 		} 
 	}
 }
@@ -114,12 +80,35 @@ function addTargets(){
 //display and update tagerts
 function displayTargerts(){
 	for(let j = 0; j < targets.length; j++){
-		targets[j].display();
-		targets[j].update();
-
-		if(targets[j].outOfBounds()) { // out of bounds 
-			targets.splice(j, 1); 
+		if(!play){
+			targets[j].setSpeed(random(3,6));
 		}
+		if(!targets[j].atBottom()){
+			targets[j].display();
+			targets[j].update();
+		} else {
+			if(play) { // keep moving
+				targets[j].display();
+				targets[j].update();
+				if(targets[j].outOfBounds()){ // remove from array when out of frame 
+					targets.splice(j, 1);
+				}
+			} else { // stops at the bottom 
+				countdown += 0.001; 
+				targets[j].display();
+				addTargets();
+				}
+			}
+		}
+	if(countdown > 25){
+		noLoop();
+		StepOne();
+	}
+}
+
+function displayFixed(){
+	for(let i = 0; i < fixed.length; i++){
+		fixed[i].display();
 	}
 }
 
@@ -129,9 +118,20 @@ function playerPosition(){
 	if(mouseX < 0){
 		position = 0;
 	} else if (mouseX > 560) {
-		position = 560;
+		position = 540;
 	}
-	p.display(position);
+
+	//mimic the police flashing light. 
+	//Might not register with a lot people of people immidiately, but I don't want to be too blunt
+	if(flash < 10){
+		p.displayA(position);
+		flash++;
+	} else if (flash < 20){
+		p.displayB(position);
+		flash++;
+	} else{
+		flash = 0;
+	}
 }
 
 //keeping track of fired bullets
@@ -168,21 +168,15 @@ function check(){
 
 
 function gameover() {
-	/*
-	textSize(40);
-	fill(0);
-	text('GAME OVER', 180, 220);
-	text('Score: ', 230, 320);
-	text(score, 360, 320);
-	noLoop(); //stop the game 
+	play = false;
+	displayFixed();
+}
 
-
-	next.show(); //show button 
-	next.position(windowWidth/2 - 20, windowHeight/2 + 100);
-	next.size(60, 30);
-	next.mousePressed(story);
-	*/
-
+function StepOne() {
+	background(102, 98, 99);
+	textAlign(CENTER);
+	textSize(28);
+	text('\B\ 1,127 people were killed by police in 2020.', );
 }
 
 /*
