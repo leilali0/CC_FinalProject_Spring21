@@ -102,7 +102,7 @@ function displayTargerts(){
 		}
 	if(countdown > 25){
 		noLoop();
-		StepOne();
+		setTimeout(StepOne, 800);
 	}
 }
 
@@ -175,8 +175,8 @@ function gameover() {
 function StepOne() {
 	background(102, 98, 99);
 	textAlign(CENTER);
-	textSize(28);
-	text('\B\ 1,127 people were killed by police in 2020.', );
+	textSize(18);
+	text('\B\ 1,127 people were killed by police in 2020.', 10, 20);
 }
 
 /*
