@@ -34,9 +34,9 @@ class Target{
 	//draw the target 
 	body(){
 		fill(this.color);
-		strokeWeight(2);
+		strokeWeight(1);
 		ellipse(this.x, this.y, 20, 20);
-		fill(0,0,255);
+		fill(255, 165, 0);
 		rect(this.left, this.y + 12.5, 25, 30);
 
 	}

@@ -2,7 +2,7 @@ class Player {
 	constructor(){
 		this.w = 60;
 		this.h = 10;
-		this.y = 585
+		this.y = 585;
 	}
 
 	displayA(position){

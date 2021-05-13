@@ -1,68 +1,83 @@
 let score = 0;
-let t;
-let p;
 let position;
 let bullets = [];
 let targets = [];
 let targetNum = 1;
 let timer = 1;
-let fixed = [];
 
-let countdown = 0;
+let step;
+
+let countdown = 0; //countdown for the ending of the game 
 
 let play;
 let flash = 0;
 
-let next;
+let gameSection;
 
 //credit: https://editor.p5js.org/carrefinho/sketches/Sk7ZvoMn7
 
 function setup() {
 	let canvas = createCanvas(600, 600);
 
-	canvas.position(windowWidth/2 - 300, windowHeight/2 -300);//centering canvas 
+	canvas.position(windowWidth/2 - 300, windowHeight/2 -300); //centering canvas 
 	background(102, 98, 99);
 	play = true;
-	y = 1;
-	//create next buttons 
-	//next = createButton('Next');
-	//next.style('font-size', '20px'); //change text size 
-	//next.hide(); //hide button 
-	p = new Player();
-	targets.push(new Target(random(30, 570), -50));
+	//y = 1;
+	p = new Player(); //creating the player 
+	targets.push(new Target(random(30, 570), -50)); //creating the first target 
 
-	stepFour();
+	gameSection = true;
+	step = 1;
 }
 
 //press any key to fire 
 function keyPressed(){
 	//push space bar the fired bullet to the array 
 	if(keyCode == 32 && play == true){
-		bullets.push(new Bullet(position + 30));
-	} 
+		bullets.push(new Bullet(position));
+	} else if(keyCode == 37 && step > 1) {
+		step--;
+	} else if(keyCode == 39) {
+		step++;
+	}
+
+	if(step == 1){
+		stepOne();
+	} else if(step == 2){
+		stepTwo();
+	} else if(step == 3){
+		stepThree();
+	} else if(step == 4){
+		stepFour();
+	} else {
+		step == 1;
+	}
 }
-/*
+
 function draw() {
-	background(102, 98, 99);
+	if(gameSection){ //if playing the game 
+		background(102, 98, 99);
 
-	playerPosition();
+		//make sure the player box moves with mouse
+		playerPosition();
 
-	//add targets
-	//calling it multiple times to create targets frequently, and not all at once
-	addTargets();
+		//add targets
+		//calling it multiple times to create targets frequently, and not all at once
+		addTargets();
 
-	//display and update tagerts
-	displayTargerts();
+		//display and update tagerts
+		displayTargerts();
 
-	addTargets();
+		addTargets();
 
-	//check if fired bullets hit any target 
-	check();
+		//check if fired bullets hit any target 
+		check();
 
-	addTargets();
+		addTargets();
 
-	if(score == 10){
-		gameover();
+		if(score == 15){ //game over
+			play = false;
+		}
 	}
 }
 
@@ -90,7 +105,7 @@ function displayTargerts(){
 			if(play) { // keep moving
 				targets[j].display();
 				targets[j].update();
-				if(targets[j].outOfBounds()){ // remove from array when out of frame 
+				if(targets[j].outOfBounds()){ // remove target from array when out of frame 
 					targets.splice(j, 1);
 				}
 			} else { // stops at the bottom 
@@ -100,15 +115,10 @@ function displayTargerts(){
 				}
 			}
 		}
-	if(countdown > 25){
+	if(countdown > 10){
 		noLoop();
-		setTimeout(stepOne, 800);
-	}
-}
-
-function displayFixed(){
-	for(let i = 0; i < fixed.length; i++){
-		fixed[i].display();
+		//gameSection = flase; //stoping the game 
+		setTimeout(stepOne, 500);
 	}
 }
 
@@ -116,18 +126,18 @@ function displayFixed(){
 function playerPosition(){
 	position = mouseX;
 	if(mouseX < 0){
-		position = 0;
-	} else if (mouseX > 560) {
-		position = 540;
+		position = 30;
+	} else if (mouseX > 570) {
+		position = 570;
 	}
 
 	//mimic the police flashing light. 
 	//Might not register with a lot people of people immidiately, but I don't want to be too blunt
 	if(flash < 10){
-		p.displayA(position);
+		p.displayA(position - 30); //- 30 to keep it centered
 		flash++;
 	} else if (flash < 20){
-		p.displayB(position);
+		p.displayB(position - 30);
 		flash++;
 	} else{
 		flash = 0;
@@ -152,24 +162,14 @@ function check(){
 
 			for(let j = 0; j < targets.length; j++){
 				if(targets[j].hit(x, y)){ // check if hit a target 
-					//if(targets[j].isTarget()){ // check if it is a target 
 						bullets.splice(i, 1);
 						targets.splice(j, 1);
 						score++;
-					//} else {
-						//game over
-					//	gameover(); 
 				}
 			}
 		}
 
 	}
-}
-*/
-
-function gameover() {
-	play = false;
-	displayFixed();
 }
 
 function stepOne() {
