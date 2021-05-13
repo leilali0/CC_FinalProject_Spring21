@@ -19,6 +19,7 @@ let next;
 
 function setup() {
 	let canvas = createCanvas(600, 600);
+
 	canvas.position(windowWidth/2 - 300, windowHeight/2 -300);//centering canvas 
 	background(102, 98, 99);
 	play = true;
@@ -30,6 +31,7 @@ function setup() {
 	p = new Player();
 	targets.push(new Target(random(30, 570), -50));
 
+	stepFour();
 }
 
 //press any key to fire 
@@ -37,11 +39,9 @@ function keyPressed(){
 	//push space bar the fired bullet to the array 
 	if(keyCode == 32 && play == true){
 		bullets.push(new Bullet(position + 30));
-	}
-
+	} 
 }
-
-
+/*
 function draw() {
 	background(102, 98, 99);
 
@@ -102,7 +102,7 @@ function displayTargerts(){
 		}
 	if(countdown > 25){
 		noLoop();
-		setTimeout(StepOne, 800);
+		setTimeout(stepOne, 800);
 	}
 }
 
@@ -165,106 +165,155 @@ function check(){
 
 	}
 }
-
+*/
 
 function gameover() {
 	play = false;
 	displayFixed();
 }
 
-function StepOne() {
+function stepOne() {
 	background(102, 98, 99);
-	textAlign(CENTER);
+	//textAlign(CENTER);
 	textSize(18);
-	text('\B\ 1,127 people were killed by police in 2020.', 10, 20);
+	fill(255);
+	text('1,127 people were killed by police in 2020.', 5, 25);
+	stepOneSquares();
 }
 
-/*
-function story(){
-	next.hide();
-	background(102, 98, 99);
-	fill(255);
-	textAlign(CENTER);
-	textSize(28);
-	text('Did you notice something inappropriate?', 300, 250);
+function stepOneSquares(){
+	fill(255, 165, 0);
+	noStroke();
+	let x = 4;
+	let y = 37;
+	for(let i = 0; i < 33; i++){
+		for(let j = 0; j < 34; j++){
+			rect(x, y, 14, 14);
+			x += 17;
+		}
+		x = 4;
+		y += 17;
+	}
 
-	yes = createButton('Yes');
-	yes.position(windowWidth/2 - 150, windowHeight/2 + 50);
-	yes.style('font-size', '20px');
-	yes.size(60, 30);
-	yes.mousePressed(yStepOne);
-
-	no = createButton('No');
-	no.position(windowWidth/2 + 80, windowHeight/2 + 50);
-	no.style('font-size', '20px');
-	no.size(60, 30);
-	no.mousePressed(nStepOne);
+	y = 37;
+	for(let i = 0; i < 5; i++){
+		rect(582, y, 14, 14);
+		y += 17;
+	}
 }
 
-function yStepOne() {
+function stepThree() {
 	background(102, 98, 99);
+	textSize(18);
 	fill(255);
-	textSize(28);
-	textAlign(CENTER);
-	text('Was it the tagert color?', 300, 250);
-
-	yes.mousePressed(stepTwo);
-	no.mousePressed(nStepOne);
+	text('Officers were charged with a crime in only 16 of these cases.', 5, 25);
+	stepThreeSquares();
 }
 
-function nStepOne() {
-	background(102, 98, 99);
-	fill(255);
-	textSize(28);
-	textAlign(CENTER);
-	text("Did you notice the color of targets?", 300, 250);
+function stepThreeSquares(){
+	let count = 0;
+	noStroke();
+	let x = 4;
+	let y = 37;
+	for(let i = 0; i < 34; i++){
+		for(let j = 0; j < 33; j++){
+			if(count < 16){
+				fill(255, 165, 0);
+			} else {
+				fill(130);
+			}
+			count++;
 
-	//targetA = new Target(275);
-	//targetA.setY(100);
-	//targetA.setColor(0);
-	//targetA.display();
+			rect(x, y, 14, 14);
+			y += 17;
+		}
+		y = 37;
+		x += 17;
+	}
 
-	//targetB = new Target(325);
-	//targetB.setY(100);
-	//targetB.setColor(1);
-	//targetB.display();
-
-	yes.mousePressed(stepTwo);
-	no.mousePressed(stepTwo);
+	y = 37;
+	for(let i = 0; i < 5; i++){
+		rect(582, y, 14, 14);
+		y += 17;
+	}
 }
 
 function stepTwo() {
-	yes.hide();
-	no.hide();
-
 	background(102, 98, 99);
+	textSize(16);
 	fill(255);
-	textSize(28);
-	textAlign(CENTER);
-	text("Did you know Florida Police was caught \n used mugshots of black man for target \n practice in 2015?", 300, 250);
+	text('21.4% of the victums were Black, while Black only make up 13% of the population.', 5, 25);
+	stepTwoSquares();
+}     
 
-	setTimeout(stepThree, 3000);
+function stepTwoSquares(){
+	let count = 0;
+	noStroke();
+	let x = 4;
+	let y = 37;
+	for(let i = 0; i < 34; i++){
+		for(let j = 0; j < 33; j++){
+			if(count < 241){
+				fill(255, 165, 0);
+			} else {
+				fill(130);
+			}
+			count++;
 
-	more = createButton('Learn More');
-	more.position(windowWidth/2 - 75, windowHeight/2 + 50);
-	more.style('font-size', '20px');
-	more.size(textWidth('Learn More') + 5, 30);
+			rect(x, y, 14, 14);
+			y += 17;
+		}
+		y = 37;
+		x += 17;
+	}
+
+	y = 37;
+	for(let i = 0; i < 5; i++){
+		rect(582, y, 14, 14);
+		y += 17;
+	}
 }
-*/
 
-function stepThree() {
-	//source: https://www.pnas.org/content/116/34/16793
-	//Over the life course, about 1 in every 1,000 black men can expect to be killed by police.
-	//Black men are about 3 times more likely to be killed by police over the life course than are white men. 
-	//Black women are about 1.4 times more likely to be killed by police than are white women.
+function stepFour() {
+	background(102, 98, 99);
+	textSize(15);
+	fill(255);
+	text('At least 14 officers have shot or killed someone before. 5 had multiple prior shootings.', 5, 25);
+	stepFourSquares();
+}  
 
-	//About 17% of the black people who died as a result of police harm were unarmed, 1.3 times more than white man
+function stepFourSquares() {
+	let count = 0;
+	noStroke();
+	let x = 4;
+	let y = 37;
+	for(let i = 0; i < 34; i++){
+		for(let j = 0; j < 33; j++){
+			if(count < 5){
+				fill(102, 0, 0);
+			} else if(count < 14){
+				fill(255, 165, 0);
+			}
+			else {
+				fill(130);
+			}
+			count++;
 
-	//98.3% of killings by police from 2013-2020 have not resulted in officers being charged with a crime.
+			rect(x, y, 14, 14);
+			y += 17;
+		}
+		y = 37;
+		x += 17;
+	}
 
-	//learn more: https://mappingpoliceviolence.org
-
-	//learn more: https://policeviolencereport.org
-
-	//The average lifetime odds of being killed by police are about 1 in 2,000 for men and about 1 in 33,000 for women.
+	y = 37;
+	for(let i = 0; i < 5; i++){
+		rect(582, y, 14, 14);
+		y += 17;
+	}
 }
+
+
+
+
+
