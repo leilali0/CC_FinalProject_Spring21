@@ -12,7 +12,8 @@ let countdown = 0; //countdown for the ending of the game
 let play;
 let flash = 0;
 
-let gameSection;
+let q = flase;
+
 
 //credit: https://editor.p5js.org/carrefinho/sketches/Sk7ZvoMn7
 
@@ -26,7 +27,6 @@ function setup() {
 	p = new Player(); //creating the player 
 	targets.push(new Target(random(30, 570), -50)); //creating the first target 
 
-	gameSection = true;
 	step = 1;
 }
 
@@ -37,7 +37,7 @@ function keyPressed(){
 		bullets.push(new Bullet(position));
 	} else if(keyCode == 37 && step > 1) {
 		step--;
-	} else if(keyCode == 39) {
+	} else if(keyCode == 39 && step < 5) {
 		step++;
 	}
 
@@ -55,29 +55,29 @@ function keyPressed(){
 }
 
 function draw() {
-	if(gameSection){ //if playing the game 
-		background(102, 98, 99);
+	if(q){
+	background(102, 98, 99);
 
-		//make sure the player box moves with mouse
-		playerPosition();
+	//make sure the player box moves with mouse
+	playerPosition();
 
-		//add targets
-		//calling it multiple times to create targets frequently, and not all at once
-		addTargets();
+	//add targets
+	//calling it multiple times to create targets frequently, and not all at once
+	addTargets();
 
-		//display and update tagerts
-		displayTargerts();
+	//display and update tagerts
+	displayTargerts();
 
-		addTargets();
+	addTargets();
 
-		//check if fired bullets hit any target 
-		check();
+	//check if fired bullets hit any target 
+	check();
 
-		addTargets();
+	addTargets();
+	}
 
-		if(score == 15){ //game over
-			play = false;
-		}
+	if(score == 15){ //game over
+		play = false;
 	}
 }
 
@@ -116,9 +116,11 @@ function displayTargerts(){
 			}
 		}
 	if(countdown > 10){
-		noLoop();
-		//gameSection = flase; //stoping the game 
-		setTimeout(stepOne, 500);
+		q = false;
+		setTimeout(stepOne, 300);
+		//noLoop();
+		//setTimeout(stepOne, 300);
+		//targets.splice(0, targets.length); //remove everything from array 
 	}
 }
 
@@ -207,7 +209,7 @@ function stepThree() {
 	textSize(18);
 	fill(255);
 	text('Officers were charged with a crime in only 16 of these cases.', 5, 25);
-	stepThreeSquares();
+	blank();
 }
 
 function stepThreeSquares(){
@@ -243,8 +245,36 @@ function stepTwo() {
 	textSize(16);
 	fill(255);
 	text('21.4% of the victums were Black, while Black only make up 13% of the population.', 5, 25);
-	stepTwoSquares();
+	blank();
 }     
+
+function blank(){
+	noStroke();
+	let x = 4;
+	let y = 37;
+	for(let i = 0; i < 34; i++){
+		for(let j = 0; j < 33; j++){
+			fill(130);
+			rect(x, y, 14, 14);
+			y += 17;
+		}
+		y = 37;
+		x += 17;
+	}
+
+	y = 37;
+	for(let i = 0; i < 5; i++){
+		rect(582, y, 14, 14);
+		y += 17;
+	}
+	if(step == 2){
+		setTimeout(stepTwoSquares, 200);
+	} else if(step == 3){
+		setTimeout(stepThreeSquares, 200);
+	} else if(step == 4){
+		setTimeout(stepFourSquares, 200);
+	}
+}
 
 function stepTwoSquares(){
 	let count = 0;
@@ -279,7 +309,7 @@ function stepFour() {
 	textSize(15);
 	fill(255);
 	text('At least 14 officers have shot or killed someone before. 5 had multiple prior shootings.', 5, 25);
-	stepFourSquares();
+	blank();
 }  
 
 function stepFourSquares() {

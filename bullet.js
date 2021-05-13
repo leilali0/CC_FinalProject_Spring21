@@ -16,7 +16,7 @@ class Bullet{
   		//let b = random(256); 
 
 		fill(this.r, this.g, this.b);
-		strokeWeight(1);
+		noStroke();
 		ellipse(this.x, this.y, 10);
 	}
 
