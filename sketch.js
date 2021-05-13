@@ -12,7 +12,7 @@ let countdown = 0; //countdown for the ending of the game
 let play;
 let flash = 0;
 
-let q = true;
+let q = false;
 
 
 //credit: https://editor.p5js.org/carrefinho/sketches/Sk7ZvoMn7
@@ -40,7 +40,7 @@ function keyPressed(){
 		bullets.push(new Bullet(position));
 	} else if(keyCode == 37 && step > 1) {
 		step--;
-	} else if(keyCode == 39 && step < 5) {
+	} else if(keyCode == 39 && step < 6) {
 		step++;
 	} else if(keyCode == 83){ // press s twice to skip the game 
 		noLoop();
@@ -55,8 +55,11 @@ function keyPressed(){
 		stepThree();
 	} else if(step == 4){
 		stepFour();
+	} else if(step == 5){
+		final();
 	} else {
-		step == 1;
+		step = 1;
+		stepOne();
 	}
 }
 
@@ -181,6 +184,7 @@ function check(){
 }
 
 function stepOne() {
+	textAlign(LEFT);
 	background(102, 98, 99);
 	//textAlign(CENTER);
 	textSize(18);
@@ -212,6 +216,7 @@ function stepOneSquares(){
 }
 
 function stepThree() {
+	textAlign(LEFT);
 	background(102, 98, 99);
 	textSize(18);
 	fill(255);
@@ -316,6 +321,7 @@ function stepFour() {
 	background(102, 98, 99);
 	textSize(15);
 	fill(255);
+	textAlign(LEFT);
 	text('At least 14 officers have shot or killed someone before. 5 had multiple prior shootings.', 5, 25);
 	blank();
 }  
@@ -349,6 +355,16 @@ function stepFourSquares() {
 		rect(582, y, 14, 14);
 		y += 17;
 	}
+}
+
+function final(){
+	background(102, 98, 99);
+	textSize(120);
+	fill(255);
+	textAlign(CENTER);
+	text('BLM', 300, 300);
+	textSize(20);
+	text('#StopPoliceBrutality', 300, 330);
 }
 
 
