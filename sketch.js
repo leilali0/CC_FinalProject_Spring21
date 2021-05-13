@@ -12,7 +12,7 @@ let countdown = 0; //countdown for the ending of the game
 let play;
 let flash = 0;
 
-let q = false;
+let q = true;
 
 
 //credit: https://editor.p5js.org/carrefinho/sketches/Sk7ZvoMn7
