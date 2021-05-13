@@ -12,7 +12,7 @@ let countdown = 0; //countdown for the ending of the game
 let play;
 let flash = 0;
 
-let q = flase;
+let q = true;
 
 
 //credit: https://editor.p5js.org/carrefinho/sketches/Sk7ZvoMn7
@@ -28,17 +28,23 @@ function setup() {
 	targets.push(new Target(random(30, 570), -50)); //creating the first target 
 
 	step = 1;
+
+	print('WARMING: THis game contains shooting which some might find disturbing. Press "s" key twice to skip.');
+	print('Press "space" key to shot, and press left and right arrow to look at different data sets');
 }
 
 //press any key to fire 
 function keyPressed(){
 	//push space bar the fired bullet to the array 
-	if(keyCode == 32 && play == true){
+	if(keyCode == 32 && play){
 		bullets.push(new Bullet(position));
 	} else if(keyCode == 37 && step > 1) {
 		step--;
 	} else if(keyCode == 39 && step < 5) {
 		step++;
+	} else if(keyCode == 83){ // press s twice to skip the game 
+		noLoop();
+		stepOne();
 	}
 
 	if(step == 1){
@@ -56,24 +62,24 @@ function keyPressed(){
 
 function draw() {
 	if(q){
-	background(102, 98, 99);
+		background(102, 98, 99);
 
-	//make sure the player box moves with mouse
-	playerPosition();
+		//make sure the player box moves with mouse
+		playerPosition();
 
-	//add targets
-	//calling it multiple times to create targets frequently, and not all at once
-	addTargets();
+		//add targets
+		//calling it multiple times to create targets frequently, and not all at once
+		addTargets();
 
-	//display and update tagerts
-	displayTargerts();
+		//display and update tagerts
+		displayTargerts();
 
-	addTargets();
+		addTargets();
 
-	//check if fired bullets hit any target 
-	check();
+		//check if fired bullets hit any target 
+		check();
 
-	addTargets();
+		addTargets();
 	}
 
 	if(score == 15){ //game over
@@ -96,13 +102,13 @@ function addTargets(){
 function displayTargerts(){
 	for(let j = 0; j < targets.length; j++){
 		if(!play){
-			targets[j].setSpeed(random(3,6));
+			targets[j].setSpeed(random(3,6)); //speedup the targets 
 		}
-		if(!targets[j].atBottom()){
+		if(!targets[j].atBottom()){ //keep moving when not at the bottom
 			targets[j].display();
 			targets[j].update();
 		} else {
-			if(play) { // keep moving
+			if(play) { // keep moving when during the game 
 				targets[j].display();
 				targets[j].update();
 				if(targets[j].outOfBounds()){ // remove target from array when out of frame 
@@ -115,7 +121,7 @@ function displayTargerts(){
 				}
 			}
 		}
-	if(countdown > 10){
+	if(countdown > 10){ //after game animation
 		q = false;
 		setTimeout(stepOne, 300);
 		//noLoop();
@@ -164,8 +170,8 @@ function check(){
 
 			for(let j = 0; j < targets.length; j++){
 				if(targets[j].hit(x, y)){ // check if hit a target 
-						bullets.splice(i, 1);
-						targets.splice(j, 1);
+						bullets.splice(i, 1); //remove bullet 
+						targets.splice(j, 1); //remove target 
 						score++;
 				}
 			}
@@ -183,6 +189,7 @@ function stepOne() {
 	stepOneSquares();
 }
 
+//drawing the graphics 
 function stepOneSquares(){
 	fill(255, 165, 0);
 	noStroke();
@@ -248,6 +255,7 @@ function stepTwo() {
 	blank();
 }     
 
+//drawing a blank graphic 
 function blank(){
 	noStroke();
 	let x = 4;
